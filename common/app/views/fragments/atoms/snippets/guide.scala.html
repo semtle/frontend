@@ -1,5 +1,9 @@
 @(guide: model.content.GuideAtom, isAmp: Boolean)(implicit request: RequestHeader)
 
+@import views.html.fragments.items.elements.facia_cards.image
+@import layout.cards.{ Standard, Half }
+@import layout.{FaciaWidths, ItemClasses}
+
 @if(!isAmp) {
   @fragments.atoms.snippet(
     className = "guide",
@@ -9,7 +13,12 @@
   ){
     @for(guideImage <- guide.data.guideImage; master <- guideImage.master) {
       <div class="explainer-snippet__image">
-        <img src="@master.file"/>
+        @image(
+          Nil,
+          FaciaWidths.mediaFromItemClasses(ItemClasses(mobile = Standard, tablet = Half, desktop = Some(Half))),
+          maybeImageMedia = guide.image,
+          maybeSrc = Some(master.file)
+        )
       </div>
     }
 

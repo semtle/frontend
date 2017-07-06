@@ -1,5 +1,9 @@
 @(qa: model.content.QandaAtom, isAmp: Boolean)(implicit request: RequestHeader)
 
+@import views.html.fragments.items.elements.facia_cards.image
+@import layout.cards.{ Standard, Half }
+@import layout.{FaciaWidths, ItemClasses}
+
 @if(!isAmp) {
   @fragments.atoms.snippet(
     className = "qanda",
@@ -9,7 +13,12 @@
   ){
     @for(eventImage <- qa.data.eventImage; master <- eventImage.master) {
       <div class="explainer-snippet__image">
-        <img src="@master.file"/>
+        @image(
+          Nil,
+          FaciaWidths.mediaFromItemClasses(ItemClasses(mobile = Standard, tablet = Half, desktop = Some(Half))),
+          maybeImageMedia = qa.image,
+          maybeSrc = Some(master.file)
+        )
       </div>
     }
 
